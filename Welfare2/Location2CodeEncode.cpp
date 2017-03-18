@@ -46,6 +46,61 @@ int Location2CodeEncode::generateACode(set<int> numbers) {
 	return tmpCode.size();
 }
 
+int Location2CodeEncode::generateACode(set<int> hundreds, set<int> decades) {
+	if (!hundreds.size() || !decades.size()) {
+		return -1;
+	}
+
+	tmpCode.clear();
+	isGenACode = false;
+	isACodeSaved = false;
+
+	int count = commonGenerate(hundreds, decades, tmpCode);
+
+	// 去重
+	removeDuplication(tmpCode);
+
+	if (tmpCode.size()) {
+		isGenACode = true;
+	}
+
+	return count;
+
+}
+
+int Location2CodeEncode::commonGenerate(const set<int>& numsA, const set<int>& numsB, vector<Location2Code>& vec)
+{
+	if (!numsA.size() || !numsB.size())
+	{
+		return -1;
+	}
+	
+	int before = vec.size();
+
+	for (set<int>::iterator ita = numsA.begin(); ita != numsA.end(); ita++)
+	{
+		if (*ita > 9 || *ita < 0) {
+			continue;
+		}
+
+		for (set<int>::iterator itb = numsB.begin(); itb != numsB.end(); itb++)
+		{
+			if (*itb > 9 || *itb < 0)
+			{
+				continue;
+			}
+			Location2Code code;
+			code.codeSeq[0] = *ita;
+			code.codeSeq[1] = *itb;
+			code.freq = 1;
+			vec.push_back(code);
+		}
+	}
+
+	return vec.size() - before;
+}
+
+
 int Location2CodeEncode::generateBCode(set<int> numbers) {
 	if (!numbers.size()) {
 		return -1;
@@ -76,6 +131,27 @@ int Location2CodeEncode::generateBCode(set<int> numbers) {
 	}
 
 	return tmpCode.size();
+}
+
+int Location2CodeEncode::generateBCode(set<int> decades, set<int> units) {
+	if (!decades.size() || !units.size())
+	{
+		return -1;
+	}
+	tmpCode.clear();
+	isGenBCode = false;
+
+	int count = commonGenerate(decades, units , tmpCode);
+
+	// 去重
+	removeDuplication(tmpCode);
+
+	if (tmpCode.size()) {
+		isGenBCode = true;
+	}
+
+	return count;
+	
 }
 
 int Location2CodeEncode::killCode(set<int> boldCode) {

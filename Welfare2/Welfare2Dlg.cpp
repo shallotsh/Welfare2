@@ -89,6 +89,8 @@ void CWelfare2Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST_TITLE, m_listTitle);
 	DDX_Control(pDX, IDC_HANDLE_RESET_ALL, m_handleResetAll);
 	DDX_Control(pDX, IDC_STATIC_OUTPUT, m_outputTitle);
+	DDX_Control(pDX, IDC_DATA_CODE_A2, m_dataCodeA2);
+	DDX_Control(pDX, IDC_DATA_CODE_B2, m_dataCodeB2);
 }
 
 BEGIN_MESSAGE_MAP(CWelfare2Dlg, CDialogEx)
@@ -240,8 +242,13 @@ void CWelfare2Dlg::OnClickedHandleGenA()
 {
 	CString codeString;
 	m_dataCodeA.GetWindowTextW(codeString);
+
+	CString codeString2;
+	m_dataCodeA2.GetWindowTextW(codeString2);
+
 	int length = codeString.GetLength();
-	if (length == 0) {
+	int length2 = codeString2.GetLength();
+	if (length == 0 || length2 == 0) {
 		MessageBox(_T("请输入组码序列"), _T("百十位: 输入序列为空"), MB_OK);
 		return;
 	}
@@ -264,15 +271,23 @@ void CWelfare2Dlg::OnClickedHandleGenA()
 		}
 	}
 	
-	set<int> numbers;
+	set<int> hundreds;
 	char *p = (LPSTR)(LPCTSTR)codeString;
 	for (int j = 0; j<2 * length; j = j + 2)
 	{
 		int tmp = *(p + j) - 48;
-		numbers.insert(tmp);
+		hundreds.insert(tmp);
+	}
+
+	set<int> decades;
+	char *p2 = (LPSTR)(LPCTSTR)codeString2;
+	for (int j = 0; j<2 * length; j = j + 2)
+	{
+		int tmp = *(p2 + j) - 48;
+		decades.insert(tmp);
 	}
 	
-	location->generateACode(numbers);
+	location->generateACode(hundreds, decades);
 
 	// 输出到列表
 	output2List(m_listCode, location -> tmpCode);
@@ -338,8 +353,13 @@ void CWelfare2Dlg::OnBnClickedHandleGenB()
 {
 	CString codeString;
 	m_dataCodeB.GetWindowTextW(codeString);
+
+	CString codeString2;
+	m_dataCodeB2.GetWindowTextW(codeString2);
+
 	int length = codeString.GetLength();
-	if (length == 0) {
+	int length2 = codeString2.GetLength();
+	if (length == 0 || length2 == 0) {
 		MessageBox(_T("请输入组码序列"), _T("十个位: 输入序列为空"), MB_OK);
 		return;
 	}
@@ -362,15 +382,23 @@ void CWelfare2Dlg::OnBnClickedHandleGenB()
 		}
 	}
 
-	set<int> numbers;
+	set<int> decades;
 	char *p = (LPSTR)(LPCTSTR)codeString;
 	for (int j = 0; j<2 * length; j = j + 2)
 	{
 		int tmp = *(p + j) - 48;
-		numbers.insert(tmp);
+		decades.insert(tmp);
 	}
 
-	location->generateBCode(numbers);
+	set<int> units;
+	char *p2 = (LPSTR)(LPCTSTR)codeString2;
+	for (int j = 0; j<2 * length; j = j + 2)
+	{
+		int tmp = *(p2 + j) - 48;
+		units.insert(tmp);
+	}
+
+	location->generateBCode(decades, units);
 
 	// 输出到列表
 	output2List(m_listCode, location->tmpCode);
@@ -537,7 +565,9 @@ void CWelfare2Dlg::OnBnClickedHandleReset()
 	m_listCode.ResetContent();
 	m_listTitle.DeleteAllItems();
 	m_dataCodeA.SetWindowTextW(_T(""));
+	m_dataCodeA2.SetWindowTextW(_T(""));
 	m_dataCodeB.SetWindowTextW(_T(""));
+	m_dataCodeB2.SetWindowTextW(_T(""));
 	m_dataBoldA.SetWindowTextW(_T(""));
 	m_dataBoldB.SetWindowTextW(_T(""));
 	m_output.SetWindowTextW(_T(""));

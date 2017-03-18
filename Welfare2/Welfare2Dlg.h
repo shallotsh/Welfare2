@@ -72,4 +72,7 @@ public:
 	CButton m_handleResetAll;
 	afx_msg void OnBnClickedHandleResetAll();
 	CStatic m_outputTitle;
+	// ʮλ
+	CEdit m_dataCodeA2;
+	CEdit m_dataCodeB2;
 };

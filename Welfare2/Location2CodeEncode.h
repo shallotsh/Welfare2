@@ -53,12 +53,24 @@ public:
 	********************************/
 	int generateACode(set<int> numbers);
 
+	int generateACode(set<int> hundreds, set<int> decades);
+
 	/*****************************
 	*	生成B码
 	*	@author: shallotsh
 	*	@since: 1.0
 	********************************/
 	int generateBCode(set<int> numbers);
+
+	int generateBCode(set<int> decades, set<int> units);
+
+	/*****************************
+	*	通用二码生成算法
+	*	@author: shallotsh
+	*	@since: 1.0
+	********************************/
+	int commonGenerate(const set<int>& numsA, const set<int>& numsB, vector<Location2Code>& vec);
+
 
 
 	/*****************************
