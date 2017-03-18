@@ -30,6 +30,7 @@ protected:
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -65,6 +66,9 @@ public:
 	afx_msg void OnBnClickedHandlePrint();
 	afx_msg void OnBnClickedHandleReset();
 	afx_msg void OnNMClickListTitle(NMHDR *pNMHDR, LRESULT *pResult);
+
+	virtual void OnOK();
+
 	CButton m_handleResetAll;
 	afx_msg void OnBnClickedHandleResetAll();
 	CStatic m_outputTitle;

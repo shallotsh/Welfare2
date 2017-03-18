@@ -108,6 +108,21 @@ BEGIN_MESSAGE_MAP(CWelfare2Dlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
+// 处理回车键
+BOOL CWelfare2Dlg::PreTranslateMessage(MSG* MSG)
+{
+	if (MSG->message == WM_KEYDOWN && MSG->wParam == VK_ESCAPE)
+		return TRUE;
+	else
+		return CDialog::PreTranslateMessage(MSG);
+}
+
+// 处理OK
+void CWelfare2Dlg::OnOK()
+{
+	// do nothing
+}
+
 // CWelfare2Dlg 消息处理程序
 
 BOOL CWelfare2Dlg::OnInitDialog()
