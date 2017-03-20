@@ -281,7 +281,7 @@ void CWelfare2Dlg::OnClickedHandleGenA()
 
 	set<int> decades;
 	char *p2 = (LPSTR)(LPCTSTR)codeString2;
-	for (int j = 0; j<2 * length; j = j + 2)
+	for (int j = 0; j<2 * length2; j = j + 2)
 	{
 		int tmp = *(p2 + j) - 48;
 		decades.insert(tmp);
@@ -392,7 +392,7 @@ void CWelfare2Dlg::OnBnClickedHandleGenB()
 
 	set<int> units;
 	char *p2 = (LPSTR)(LPCTSTR)codeString2;
-	for (int j = 0; j<2 * length; j = j + 2)
+	for (int j = 0; j<2 * length2; j = j + 2)
 	{
 		int tmp = *(p2 + j) - 48;
 		units.insert(tmp);
